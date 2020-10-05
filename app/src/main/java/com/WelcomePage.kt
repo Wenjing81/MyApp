@@ -2,6 +2,7 @@ package com
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_welcome_page.*
 //Welcome page for the user to input username, transfer username to the next activity-MainActivity
@@ -19,6 +20,7 @@ class WelcomePage : AppCompatActivity() {
 
             val intent:Intent= Intent(this, MainActivity::class.java)
          //send intent and "username" from here
+            Log.v("wj","the input username is $username")
             intent.putExtra(USERNAME, username)
 
             startActivity(intent)

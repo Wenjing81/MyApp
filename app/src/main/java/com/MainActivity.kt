@@ -1,73 +1,123 @@
 package com
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.WelcomePage.Companion.USERNAME
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
 
-    private val exampleList = generateDummyList(10)
-    private val adapter = ExampleAdapter(exampleList, this)
+    //transfer "intent" and the username here
+    private var username: String = ""
+    private lateinit var exampleList:ArrayList<ExampleItem>
+    private lateinit var adapter :ExampleAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //transfer "intent" ande username here
-        val username = intent?.getStringExtra(USERNAME)
+        username = intent?.getStringExtra(USERNAME) ?: ""
 
-        title = "Welcome $username!"
+        //show the apps welcome information
+        title = "Welcome $username !"
 
         //set recyclerviews features, for example, adapter, layoutManager, setHasFixedSize.
+
         //
+        initDataBase()
+
+        adapter = ExampleAdapter(exampleList, this)
         recycler_view.adapter = adapter
         recycler_view.layoutManager = GridLayoutManager(this, 2)
         recycler_view.setHasFixedSize(true)
     }
 
-    fun insertItem(view: View) {
-        val index = Random.nextInt(8)
-
-        val newItem = ExampleItem(
-                R.drawable.ic_android,
-                "New item at position $index",
-                "Line 2"
-        )
-
-        exampleList.add(index, newItem)
-        adapter.notifyItemInserted(index)
+    private fun initDataBase(){
+        exampleList = generateDummyList(6)
     }
 
-    fun removeItem(view: View) {
-        val index = Random.nextInt(8)
+   /* fun insertItem(view: View) {
+         val index = Random.nextInt(8)
 
-        exampleList.removeAt(index)
-        adapter.notifyItemRemoved(index)
-    }
+         val newItem = ExampleItem(
+                 R.drawable.ic_android,
+                 "New item at position $index",
+                 "Line 2"
+         )
 
+         exampleList.add(index, newItem)
+         adapter.notifyItemInserted(index)
+     }
+
+     fun removeItem(view: View) {
+         val index = Random.nextInt(8)
+
+         exampleList.removeAt(index)
+         adapter.notifyItemRemoved(index)
+     }
+ */
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem = exampleList[position]
-        clickedItem.text1 = "Clicked"
+        clickedItem.status = "clicked"
         adapter.notifyItemChanged(position)
+        val intent: Intent = Intent(this, GuessingProcess::class.java)
+        intent.putExtra(USERNAME, username)
+        intent.putExtra(PDTYPE,clickedItem.type)
+        startActivity(intent)
+
     }
 
     private fun generateDummyList(size: Int): ArrayList<ExampleItem> {
         val list = ArrayList<ExampleItem>()
+        var drawable: Int
+        var status: String
+        var type :String
         for (i in 0 until size) {
-            val drawable = when (i % 3) {
-                0 -> R.drawable.ic_android
-                1 -> R.drawable.ic_audio
-                else -> R.drawable.ic_sun
+            when (i) {
+                0 -> {
+                    drawable = R.drawable.type0_drink
+
+                    type = "drink"
+
+                }
+
+                1 ->{
+                    drawable =R.drawable.type1_fruit
+
+                    type ="fruit"
+
+                }
+                2 ->{
+                    drawable =R.drawable.type2_hygien
+                    type = "hygien"
+
+                }
+                3 -> {
+                    drawable =R.drawable.type3_meat
+                    type = "meat"
+
+                }
+                4 ->{
+                    drawable =R.drawable.type4_seafood
+                    type= "seafood"
+
+                }
+                else ->{
+                    drawable =R.drawable.type5_snack
+                    type ="snack"
+
+                }
             }
-            val item = ExampleItem(drawable, "Item $i", "Line 2")
-            list += item
+            val item = ExampleItem(drawable, type,"not clicked")
+            list.add(item)
         }
         return list
+    }
+
+    companion object{
+        const val PDTYPE ="type"
     }
 }

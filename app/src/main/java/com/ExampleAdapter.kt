@@ -26,8 +26,8 @@ class ExampleAdapter(
         val currentItem = exampleList[position]
 
         holder.imageView.setImageResource(currentItem.imageResource)
-        holder.textView1.text = currentItem.text1
-        holder.textView2.text = currentItem.text2
+        holder.textView1.text = currentItem.type
+        holder.textView2.text = currentItem.status
 
 
     }
@@ -53,6 +53,8 @@ class ExampleAdapter(
     }
 
     interface OnItemClickListener {
+
         fun onItemClick(position: Int)
+
     }
 }

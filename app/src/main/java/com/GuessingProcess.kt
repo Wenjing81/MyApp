@@ -1,0 +1,96 @@
+package com
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.MainActivity.Companion.PDTYPE
+import com.WelcomePage.Companion.USERNAME
+import com.r.myapp.R
+import kotlinx.android.synthetic.main.activity_guessing_process.*
+
+class GuessingProcess : AppCompatActivity() {
+
+    private val productList = mutableListOf<ProductItem>()
+
+    //transfer "intent" and the username here
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_guessing_process)
+
+        val username = intent?.getStringExtra(USERNAME)
+        //Log.v("wj","the input username at Guessing is $username")
+
+        val type = intent?.getStringExtra(PDTYPE)
+        //Log.v("WJ","type is $type")
+
+        productGenerator()
+
+        val subList = productList.filter {
+            it.productType == type
+        }
+
+        val randomImageNumber=(0..subList.size-1).random()
+        val productItem = subList[randomImageNumber]
+
+        product_image.setImageResource(productItem.productImage)
+
+        var failureCount : Int = 0
+        guess_button.setOnClickListener{
+
+
+
+            if(productItem.productPrice > input_price.text.toString().toInt())
+            {
+                Toast.makeText(this,"Lower",Toast.LENGTH_LONG).show()
+                failureCount=failureCount+1
+            }
+            else if (productItem.productPrice < input_price.text.toString().toInt())
+            {
+                Toast.makeText(this,"Higher",Toast.LENGTH_LONG).show()
+                failureCount = failureCount + 1
+            }
+            else
+            {
+                val intent: Intent = Intent(this, Result::class.java)
+                intent.putExtra(USERNAME, username)
+                intent.putExtra(FAILURECOUNT,failureCount)
+                intent.putExtra(PRODUCTPRICE,productItem.productPrice)
+                Log.d("wj","You have failed $failureCount times!")
+                startActivity(intent)
+            }
+
+
+        }
+    }
+
+
+    fun productGenerator() {
+        productList.add(ProductItem(R.drawable.drink1_evian, "drink", 18, 2020001))
+        productList.add(ProductItem(R.drawable.drink2_alpro_soyamilk, "drink", 20, 2020002))
+        productList.add(ProductItem(R.drawable.drink3_mellanmilkeko, "drink", 12, 2020003))
+        productList.add(ProductItem(R.drawable.drink4_havredryck, "drink", 12, 2020004))
+        productList.add(ProductItem(R.drawable.drink5_spritezero, "drink", 17, 2020005))
+        productList.add(ProductItem(R.drawable.fruit1_avcado, "fruit", 11, 2020006))
+        productList.add(ProductItem(R.drawable.fruit2_mango, "fruit", 20, 2020007))
+        productList.add(ProductItem(R.drawable.fruit3_grapefruit, "fruit", 15, 2020008))
+        productList.add(ProductItem(R.drawable.hygien1_colgate, "hygien", 26, 2020009))
+        productList.add(ProductItem(R.drawable.hygien2_neutral, "hygien", 25, 2020010))
+        productList.add(ProductItem(R.drawable.meat1_chicken, "meat", 90, 2020011))
+        productList.add(ProductItem(R.drawable.meat2_meatball, "meat", 53, 2020012))
+        productList.add(ProductItem(R.drawable.seafood1_shrimp, "seafood", 65, 2020013))
+        productList.add(ProductItem(R.drawable.seafood2_salmon, "seafood", 85, 2020014))
+        productList.add(ProductItem(R.drawable.seafood3_friedfish, "seafood", 57, 2020015))
+        productList.add(ProductItem(R.drawable.snack1_chips, "snack", 22, 2020016))
+        productList.add(ProductItem(R.drawable.snack2_icecream, "snack", 52, 2020017))
+        productList.add(ProductItem(R.drawable.snack3_chocolate, "snack", 29, 2020018))
+
+
+    }
+    companion object{
+        const val FAILURECOUNT = "failureCount"
+        const val PRODUCTPRICE = "productPrice"
+    }
+}
