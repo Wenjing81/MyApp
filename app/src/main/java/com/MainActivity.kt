@@ -12,8 +12,8 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
 
     //transfer "intent" and the username here
     private var username: String = ""
-    private lateinit var exampleList:ArrayList<ExampleItem>
-    private lateinit var adapter :ExampleAdapter
+    private lateinit var exampleList: ArrayList<ExampleItem>
+    private lateinit var adapter: ExampleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,37 +35,37 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
         recycler_view.setHasFixedSize(true)
     }
 
-    private fun initDataBase(){
+    private fun initDataBase() {
         exampleList = generateDummyList(6)
     }
 
-   /* fun insertItem(view: View) {
-         val index = Random.nextInt(8)
+    /* fun insertItem(view: View) {
+          val index = Random.nextInt(8)
 
-         val newItem = ExampleItem(
-                 R.drawable.ic_android,
-                 "New item at position $index",
-                 "Line 2"
-         )
+          val newItem = ExampleItem(
+                  R.drawable.ic_android,
+                  "New item at position $index",
+                  "Line 2"
+          )
 
-         exampleList.add(index, newItem)
-         adapter.notifyItemInserted(index)
-     }
+          exampleList.add(index, newItem)
+          adapter.notifyItemInserted(index)
+      }
 
-     fun removeItem(view: View) {
-         val index = Random.nextInt(8)
+      fun removeItem(view: View) {
+          val index = Random.nextInt(8)
 
-         exampleList.removeAt(index)
-         adapter.notifyItemRemoved(index)
-     }
- */
+          exampleList.removeAt(index)
+          adapter.notifyItemRemoved(index)
+      }
+  */
     override fun onItemClick(position: Int) {
         val clickedItem = exampleList[position]
         clickedItem.status = "clicked"
         adapter.notifyItemChanged(position)
         val intent: Intent = Intent(this, GuessingProcess::class.java)
         intent.putExtra(USERNAME, username)
-        intent.putExtra(PDTYPE,clickedItem.type)
+        intent.putExtra(PDTYPE, clickedItem.type)
         startActivity(intent)
 
     }
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
         val list = ArrayList<ExampleItem>()
         var drawable: Int
         var status: String
-        var type :String
+        var type: String
         for (i in 0 until size) {
             when (i) {
                 0 -> {
@@ -84,40 +84,40 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
 
                 }
 
-                1 ->{
-                    drawable =R.drawable.type1_fruit
+                1 -> {
+                    drawable = R.drawable.type1_fruit
 
-                    type ="fruit"
+                    type = "fruit"
 
                 }
-                2 ->{
-                    drawable =R.drawable.type2_hygien
+                2 -> {
+                    drawable = R.drawable.type2_hygien
                     type = "hygien"
 
                 }
                 3 -> {
-                    drawable =R.drawable.type3_meat
+                    drawable = R.drawable.type3_meat
                     type = "meat"
 
                 }
-                4 ->{
-                    drawable =R.drawable.type4_seafood
-                    type= "seafood"
+                4 -> {
+                    drawable = R.drawable.type4_seafood
+                    type = "seafood"
 
                 }
-                else ->{
-                    drawable =R.drawable.type5_snack
-                    type ="snack"
+                else -> {
+                    drawable = R.drawable.type5_snack
+                    type = "snack"
 
                 }
             }
-            val item = ExampleItem(drawable, type,"not clicked")
+            val item = ExampleItem(drawable, type, "not clicked")
             list.add(item)
         }
         return list
     }
 
-    companion object{
-        const val PDTYPE ="type"
+    companion object {
+        const val PDTYPE = "type"
     }
 }

@@ -11,8 +11,6 @@ import kotlinx.android.synthetic.main.activity_result.*
 class Result : AppCompatActivity() {
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
@@ -26,9 +24,6 @@ class Result : AppCompatActivity() {
     }
 
 
-
-
-
     private fun setGuessResult(failureCount: Int, productPrice: Int) {
         val discount = when (failureCount) {
             in 0..3 -> 50
@@ -39,7 +34,12 @@ class Result : AppCompatActivity() {
         val discountPrice = ((discount.toDouble() / 100) * productPrice)
 
         result_textView.text =
-            getString(R.string.guess_result, failureCount,discount.toString(), discountPrice.toString())
-        
+            getString(
+                R.string.guess_result,
+                failureCount,
+                discount.toString(),
+                discountPrice.toString()
+            )
+
     }
 }

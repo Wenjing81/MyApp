@@ -32,33 +32,27 @@ class GuessingProcess : AppCompatActivity() {
             it.productType == type
         }
 
-        val randomImageNumber=(0..subList.size-1).random()
+        val randomImageNumber = (0..subList.size - 1).random()
         val productItem = subList[randomImageNumber]
 
         product_image.setImageResource(productItem.productImage)
 
-        var failureCount : Int = 0
-        guess_button.setOnClickListener{
+        var failureCount: Int = 0
+        guess_button.setOnClickListener {
 
 
-
-            if(productItem.productPrice > input_price.text.toString().toInt())
-            {
-                Toast.makeText(this,"Lower",Toast.LENGTH_LONG).show()
-                failureCount=failureCount+1
-            }
-            else if (productItem.productPrice < input_price.text.toString().toInt())
-            {
-                Toast.makeText(this,"Higher",Toast.LENGTH_LONG).show()
+            if (productItem.productPrice > input_price.text.toString().toInt()) {
+                Toast.makeText(this, "Lower", Toast.LENGTH_LONG).show()
                 failureCount = failureCount + 1
-            }
-            else
-            {
+            } else if (productItem.productPrice < input_price.text.toString().toInt()) {
+                Toast.makeText(this, "Higher", Toast.LENGTH_LONG).show()
+                failureCount = failureCount + 1
+            } else {
                 val intent: Intent = Intent(this, Result::class.java)
                 intent.putExtra(USERNAME, username)
-                intent.putExtra(FAILURECOUNT,failureCount)
-                intent.putExtra(PRODUCTPRICE,productItem.productPrice)
-                Log.d("wj","You have failed $failureCount times!")
+                intent.putExtra(FAILURECOUNT, failureCount)
+                intent.putExtra(PRODUCTPRICE, productItem.productPrice)
+                Log.d("wj", "You have failed $failureCount times!")
                 startActivity(intent)
             }
 
@@ -89,7 +83,8 @@ class GuessingProcess : AppCompatActivity() {
 
 
     }
-    companion object{
+
+    companion object {
         const val FAILURECOUNT = "failureCount"
         const val PRODUCTPRICE = "productPrice"
     }
