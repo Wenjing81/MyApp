@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.MainActivity.Companion.PDTYPE
 import com.WelcomePage.Companion.USERNAME
 import com.r.myapp.R
@@ -13,8 +16,12 @@ import kotlinx.android.synthetic.main.activity_guessing_process.*
 class GuessingProcess : AppCompatActivity() {
 
     private val productList = mutableListOf<ProductItem>()
+    var successTimesOnOnePage: Int = 0
 
     //transfer "intent" and the username here
+    var randomImageNumber = 0
+    lateinit var productItem: ProductItem
+    var failureCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,38 +35,46 @@ class GuessingProcess : AppCompatActivity() {
 
         productGenerator()
 
-        val subList = productList.filter {
+        val subList1 = productList.filter {
             it.productType == type
         }
 
-        val randomImageNumber = (0..subList.size - 1).random()
-        val productItem = subList[randomImageNumber]
+        val subList = subList1 as MutableList
 
-        product_image.setImageResource(productItem.productImage)
+        replaceNewFragment(subList)
 
-        var failureCount: Int = 0
         guess_button.setOnClickListener {
-
 
             if (productItem.productPrice > input_price.text.toString().toInt()) {
                 Toast.makeText(this, "Lower", Toast.LENGTH_LONG).show()
-                failureCount = failureCount + 1
+                failureCount += 1
             } else if (productItem.productPrice < input_price.text.toString().toInt()) {
                 Toast.makeText(this, "Higher", Toast.LENGTH_LONG).show()
-                failureCount = failureCount + 1
+                failureCount += 1
             } else {
-                val intent: Intent = Intent(this, Result::class.java)
-                intent.putExtra(USERNAME, username)
-                intent.putExtra(FAILURECOUNT, failureCount)
-                intent.putExtra(PRODUCTPRICE, productItem.productPrice)
-                Log.d("wj", "You have failed $failureCount times!")
-                startActivity(intent)
+                successTimesOnOnePage++
+                if ((successTimesOnOnePage < 3) and (subList.size > 1)) {
+                    subList.remove(productItem)
+                    Toast.makeText(this, "next one", Toast.LENGTH_LONG).show()
+                    replaceNewFragment(subList)
+                } else {
+                    toResult(username!!, failureCount, productItem)
+                }
             }
-
-
         }
     }
 
+    private fun replaceNewFragment(subList: List<ProductItem>) {
+        Log.v("zhangwenjing", "size is ${subList.size}")
+        if (subList.size <= 1){
+            randomImageNumber = 0
+        } else {
+            randomImageNumber = (subList.indices).random()
+        }
+        productItem = subList[randomImageNumber]
+        val x = ImageFragment.newInstance(productItem.productImage)
+        replaceFragment(x)
+    }
 
     fun productGenerator() {
         productList.add(ProductItem(R.drawable.drink1_evian, "drink", 18, 2020001))
@@ -80,8 +95,22 @@ class GuessingProcess : AppCompatActivity() {
         productList.add(ProductItem(R.drawable.snack1_chips, "snack", 22, 2020016))
         productList.add(ProductItem(R.drawable.snack2_icecream, "snack", 52, 2020017))
         productList.add(ProductItem(R.drawable.snack3_chocolate, "snack", 29, 2020018))
+    }
 
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_image, fragment)
+        transaction.commit()
+    }
 
+    fun toResult(username: String, failureCount: Int, productItem: ProductItem) {
+        val intent: Intent = Intent(this, Result::class.java)
+        intent.putExtra(USERNAME, username)
+        intent.putExtra(FAILURECOUNT, failureCount)
+        intent.putExtra(PRODUCTPRICE, productItem.productPrice)
+        Log.d("wj", "You have failed $failureCount times!")
+        startActivity(intent)
     }
 
     companion object {

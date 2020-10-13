@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.exemple_item.view.*
 
-class ExampleAdapter(
-    private val exampleList: List<ExampleItem>,
+class CategoryAdapter(
+    private val exampleList: List<CategoryItem>,
     private val listener: OnItemClickListener
-) : RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>() {
+) : RecyclerView.Adapter<CategoryAdapter.ExampleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
         val itemView =

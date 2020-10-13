@@ -8,12 +8,12 @@ import com.WelcomePage.Companion.USERNAME
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
     //transfer "intent" and the username here
     private var username: String = ""
-    private lateinit var exampleList: ArrayList<ExampleItem>
-    private lateinit var adapter: ExampleAdapter
+    private lateinit var exampleList: ArrayList<CategoryItem>
+    private lateinit var adapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
         //
         initDataBase()
 
-        adapter = ExampleAdapter(exampleList, this)
+        adapter = CategoryAdapter(exampleList, this)
         recycler_view.adapter = adapter
         recycler_view.layoutManager = GridLayoutManager(this, 2)
         recycler_view.setHasFixedSize(true)
@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
 
     }
 
-    private fun generateDummyList(size: Int): ArrayList<ExampleItem> {
-        val list = ArrayList<ExampleItem>()
+    private fun generateDummyList(size: Int): ArrayList<CategoryItem> {
+        val list = ArrayList<CategoryItem>()
         var drawable: Int
-        var status: String
+        //var status: String
         var type: String
         for (i in 0 until size) {
             when (i) {
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(), ExampleAdapter.OnItemClickListener {
 
                 }
             }
-            val item = ExampleItem(drawable, type, "not clicked")
+            val item = CategoryItem(drawable, type, "not clicked")
             list.add(item)
         }
         return list
