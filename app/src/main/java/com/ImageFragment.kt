@@ -25,7 +25,8 @@ class ImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val x = inflater.inflate(R.layout.fragment_image, container, false)
-        product_image.setImageResource(imageId)
+        val y = x.findViewById<ImageView>(R.id.product_image)
+        y.setImageResource(imageId)
         return x
     }
 

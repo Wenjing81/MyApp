@@ -34,11 +34,11 @@ class GuessingProcess : AppCompatActivity() {
         //Log.v("WJ","type is $type")
 
         productGenerator()
-
+        //subList of productList is a List,not a MutableList
         val subList1 = productList.filter {
             it.productType == type
         }
-
+        //So should change to mutableList, Otherwise, kan not use "remove" method
         val subList = subList1 as MutableList
 
         replaceNewFragment(subList)
