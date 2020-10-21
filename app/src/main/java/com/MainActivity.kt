@@ -2,11 +2,13 @@ package com
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.WelcomePage.Companion.USERNAME
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
@@ -36,29 +38,29 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
     }
 
     private fun initDataBase() {
-        exampleList = generateDummyList(6)
+        exampleList = generateCategoryList(6)
     }
 
-    /* fun insertItem(view: View) {
-          val index = Random.nextInt(8)
+    /*fun insertItem(view: View) {
+        val index = Random.nextInt(8)
 
-          val newItem = ExampleItem(
-                  R.drawable.ic_android,
-                  "New item at position $index",
-                  "Line 2"
-          )
+        val newItem = CategoryItem(
+            R.drawable.ic_android,
+            "New item at position $index",
+            "in the store"
+        )
 
-          exampleList.add(index, newItem)
-          adapter.notifyItemInserted(index)
-      }
+        exampleList.add(index, newItem)
+        adapter.notifyItemInserted(index)
+    }
 
-      fun removeItem(view: View) {
-          val index = Random.nextInt(8)
+    fun removeItem(view: View) {
+        val index = Random.nextInt(8)
 
-          exampleList.removeAt(index)
-          adapter.notifyItemRemoved(index)
-      }
-  */
+        exampleList.removeAt(index)
+        adapter.notifyItemRemoved(index)
+    }
+*/
     override fun onItemClick(position: Int) {
         val clickedItem = exampleList[position]
         clickedItem.status = "clicked"
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
     }
 
-    private fun generateDummyList(size: Int): ArrayList<CategoryItem> {
+    private fun generateCategoryList(size: Int): ArrayList<CategoryItem> {
         val list = ArrayList<CategoryItem>()
         var drawable: Int
         //var status: String

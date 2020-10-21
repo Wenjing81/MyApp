@@ -22,7 +22,7 @@ class GuessingProcess : AppCompatActivity() {
     var randomImageNumber = 0
     lateinit var productItem: ProductItem
     var failureCount = 0
-
+    var sumOfPrices = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guessing_process)
@@ -53,20 +53,25 @@ class GuessingProcess : AppCompatActivity() {
                 failureCount += 1
             } else {
                 successTimesOnOnePage++
-                if ((successTimesOnOnePage < 3) and (subList.size > 1)) {
+                sumOfPrices += input_price.text.toString().toInt()
+                // Guess the prices right at most on 3 product
+                if ((successTimesOnOnePage < 4) and (subList.size > 1)) {
                     subList.remove(productItem)
                     Toast.makeText(this, "next one", Toast.LENGTH_LONG).show()
                     replaceNewFragment(subList)
+
                 } else {
+                    Log.d("test1", "$failureCount")
                     toResult(username!!, failureCount, productItem)
                 }
+
             }
         }
     }
 
     private fun replaceNewFragment(subList: List<ProductItem>) {
         Log.v("zhangwenjing", "size is ${subList.size}")
-        if (subList.size <= 1){
+        if (subList.size <= 1) {
             randomImageNumber = 0
         } else {
             randomImageNumber = (subList.indices).random()
@@ -109,6 +114,7 @@ class GuessingProcess : AppCompatActivity() {
         intent.putExtra(USERNAME, username)
         intent.putExtra(FAILURECOUNT, failureCount)
         intent.putExtra(PRODUCTPRICE, productItem.productPrice)
+        intent.putExtra(SUMOFPRICES, sumOfPrices)
         Log.d("wj", "You have failed $failureCount times!")
         startActivity(intent)
     }
@@ -116,5 +122,6 @@ class GuessingProcess : AppCompatActivity() {
     companion object {
         const val FAILURECOUNT = "failureCount"
         const val PRODUCTPRICE = "productPrice"
+        const val SUMOFPRICES = "sumOfPrices"
     }
 }

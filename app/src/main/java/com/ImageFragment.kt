@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.r.myapp.R
-import kotlinx.android.synthetic.main.fragment_image.*
 
 class ImageFragment : Fragment() {
 
