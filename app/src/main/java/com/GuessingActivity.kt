@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.MainActivity.Companion.PDTYPE
-import com.WelcomePage.Companion.USERNAME
+import com.WelcomeActivity.Companion.USERNAME
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_guessing_process.*
 
-class GuessingProcess : AppCompatActivity() {
+class GuessingActivity : AppCompatActivity() {
 
     private val productList = mutableListOf<ProductItem>()
     var successTimesOnOnePage: Int = 0
@@ -46,10 +46,10 @@ class GuessingProcess : AppCompatActivity() {
         guess_button.setOnClickListener {
 
             if (productItem.productPrice > input_price.text.toString().toInt()) {
-                Toast.makeText(this, "Lower", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Lower", Toast.LENGTH_SHORT).show()
                 failureCount += 1
             } else if (productItem.productPrice < input_price.text.toString().toInt()) {
-                Toast.makeText(this, "Higher", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Higher", Toast.LENGTH_SHORT).show()
                 failureCount += 1
             } else {
                 successTimesOnOnePage++
@@ -57,7 +57,7 @@ class GuessingProcess : AppCompatActivity() {
                 // Guess the prices right at most on 3 product
                 if ((successTimesOnOnePage < 4) and (subList.size > 1)) {
                     subList.remove(productItem)
-                    Toast.makeText(this, "next one", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "next one", Toast.LENGTH_SHORT).show()
                     replaceNewFragment(subList)
 
                 } else {
@@ -110,7 +110,7 @@ class GuessingProcess : AppCompatActivity() {
     }
 
     fun toResult(username: String, failureCount: Int, productItem: ProductItem) {
-        val intent: Intent = Intent(this, Result::class.java)
+        val intent: Intent = Intent(this, ResultActivity::class.java)
         intent.putExtra(USERNAME, username)
         intent.putExtra(FAILURECOUNT, failureCount)
         intent.putExtra(PRODUCTPRICE, productItem.productPrice)

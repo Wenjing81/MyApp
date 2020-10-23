@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.WelcomePage">
+    tools:context="com.WelcomeActivity">
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to the game!"
+        android:text="@string/welcome_to_the_game"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,9 @@
         android:id="@+id/input_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Your name"
-        android:inputType="text"
+        android:hint="@string/your_name"
+        android:importantForAutofill="no"
+        android:inputType="textNoSuggestions"
         app:layout_constraintTop_toBottomOf="@id/welcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,7 @@
         android:id="@+id/click_to_begin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Let's begin"
+        android:text="@string/let_s_begin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_user_name"

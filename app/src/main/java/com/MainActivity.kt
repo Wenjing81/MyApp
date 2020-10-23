@@ -2,13 +2,11 @@ package com
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.WelcomePage.Companion.USERNAME
+import com.WelcomeActivity.Companion.USERNAME
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
@@ -27,8 +25,6 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
         title = "Welcome $username !"
 
         //set recyclerviews features, for example, adapter, layoutManager, setHasFixedSize.
-
-        //
         initDataBase()
 
         adapter = CategoryAdapter(exampleList, this)
@@ -65,7 +61,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
         val clickedItem = exampleList[position]
         clickedItem.status = "clicked"
         adapter.notifyItemChanged(position)
-        val intent: Intent = Intent(this, GuessingProcess::class.java)
+        val intent: Intent = Intent(this, GuessingActivity::class.java)
         intent.putExtra(USERNAME, username)
         intent.putExtra(PDTYPE, clickedItem.type)
         startActivity(intent)

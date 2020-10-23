@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.Result"></activity>
-        <activity android:name="com.GuessingProcess" />
-        <activity android:name="com.WelcomePage">
+        <activity android:name="com.ResultActivity"></activity>
+        <activity android:name="com.GuessingActivity" />
+        <activity
+            android:name="com.WelcomeActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

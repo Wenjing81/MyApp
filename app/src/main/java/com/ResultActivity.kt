@@ -2,21 +2,20 @@ package com
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.GuessingProcess.Companion.FAILURECOUNT
-import com.GuessingProcess.Companion.PRODUCTPRICE
-import com.GuessingProcess.Companion.SUMOFPRICES
-import com.WelcomePage.Companion.USERNAME
+import com.GuessingActivity.Companion.FAILURECOUNT
+import com.GuessingActivity.Companion.PRODUCTPRICE
+import com.GuessingActivity.Companion.SUMOFPRICES
+import com.WelcomeActivity.Companion.USERNAME
+import com.WelcomeActivity.Companion.startWelcomeActivity
 import com.r.myapp.R
 import kotlinx.android.synthetic.main.activity_result.*
 import kotlin.math.roundToInt
 
-class Result : AppCompatActivity() {
-
+class ResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
-
 
         //get the values of the variables from GuessingProcess
         val username = intent?.getStringExtra(USERNAME)
@@ -26,6 +25,10 @@ class Result : AppCompatActivity() {
         title = "Congratulations! $username"
         //sumOfPrices is the sum of 3 products' prices
         setGuessResult(failureCount, productPrice, sumOfPrices)
+
+        try_again_button.setOnClickListener {
+            startWelcomeActivity(this)
+        }
     }
 
 
@@ -40,7 +43,6 @@ class Result : AppCompatActivity() {
 
         //roundToInt() change the double number to Int,
         val discountPrice = ((discount.toDouble() / 100) * sumOfPrices).roundToInt()
-
 
         result_textView.text =
             getString(

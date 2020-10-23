@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.MainActivity">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:padding="4dp"
@@ -14,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/buttons"
-        tools:listitem="@layout/exemple_item"/>
+        tools:listitem="@layout/guess_item"/>
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -24,19 +23,16 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Insert item"
-            android:layout_weight="1"
-            android:onClick="insertItem"/>
+            android:text="@string/insert_item"
+            android:layout_weight="1"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remove item"
-            android:layout_weight="1"
-            android:onClick="removeItem"/>
+            android:text="@string/remove_item"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
