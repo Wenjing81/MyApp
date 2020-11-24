@@ -31,6 +31,9 @@ class CategoryAdapter(
     }
 
     override fun getItemCount() = exampleList.size
+    fun updateDataList() {
+        notifyDataSetChanged()
+    }
     inner class GuessViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val imageView: ImageView = itemView.image_view

@@ -2,9 +2,9 @@ package com
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.WelcomeActivity.Companion.USERNAME
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
     //transfer "intent" and the username here
     private var username: String = ""
-    private lateinit var exampleList: ArrayList<CategoryItem>
+    private var exampleList: MutableList<CategoryItem> = mutableListOf()
     private lateinit var adapter: CategoryAdapter
     private lateinit var productViewModel: ProductViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,91 +29,109 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
         //show the apps welcome information
         title = "Welcome $username !"
 
-        //set recyclerviews features, for example, adapter, layoutManager, setHasFixedSize.
-        initDataBase()
+        val it = (application as ProductsApplication)
+        productViewModel = it.productViewModel
+
+        val temp = productViewModel.getAll()
+        if (temp.isEmpty()) {
+            text_view.visibility = View.VISIBLE
+            recycler_view.visibility = View.GONE
+        } else {
+            text_view.visibility = View.GONE
+            recycler_view.visibility = View.VISIBLE
+            //set recyclerviews features, for example, adapter, layoutManager, setHasFixedSize.
+            initLocalListData()
+        }
 
         adapter = CategoryAdapter(exampleList, this)
         recycler_view.adapter = adapter
         recycler_view.layoutManager = GridLayoutManager(this, 2)
         recycler_view.setHasFixedSize(true)
 
-        insert_all.setOnClickListener{
-            AppDatabase.getDatabase(this)
-            lifecycleScope.launch(Dispatchers.IO) {
-                lateinit var product: ProductItem
-                product = ProductItem(2020001, R.drawable.drink1_evian, "drink", 18)
-                productViewModel.insert(product)
-                product = ProductItem(2020002, R.drawable.drink2_alpro_soyamilk, "drink", 20)
-                productViewModel.insert(product)
-                product = ProductItem(2020003, R.drawable.drink3_mellanmilkeko, "drink", 12)
-                productViewModel.insert(product)
-                product = ProductItem(2020004, R.drawable.drink4_havredryck, "drink", 12)
-                productViewModel.insert(product)
-                product = ProductItem(2020006, R.drawable.fruit1_avcado, "fruit", 11)
-                productViewModel.insert(product)
-                product = ProductItem(2020007, R.drawable.fruit2_mango, "fruit", 20)
-                productViewModel.insert(product)
-                product = ProductItem(2020008, R.drawable.fruit3_grapefruit, "fruit", 15)
-                productViewModel.insert(product)
-                product = ProductItem(2020009, R.drawable.hygien1_colgate, "hygien", 26)
-                productViewModel.insert(product)
-                product = ProductItem(2020010, R.drawable.hygien2_neutral, "hygien", 25)
-                productViewModel.insert(product)
-                product = ProductItem(2020011, R.drawable.meat1_chicken, "meat", 90)
-                productViewModel.insert(product)
-                product = ProductItem(2020012, R.drawable.meat2_meatball, "meat", 53)
-                productViewModel.insert(product)
-                product = ProductItem(2020013, R.drawable.seafood1_shrimp, "seafood", 65)
-                productViewModel.insert(product)
-                product = ProductItem(2020014, R.drawable.seafood2_salmon, "seafood", 85)
-                productViewModel.insert(product)
-                product = ProductItem(2020015, R.drawable.seafood3_friedfish, "seafood", 57)
-                productViewModel.insert(product)
-                product = ProductItem(2020016, R.drawable.snack1_chips, "snack", 22)
-                productViewModel.insert(product)
-                product = ProductItem(2020017, R.drawable.snack2_icecream, "snack", 52)
-                productViewModel.insert(product)
-                product = ProductItem(2020018, R.drawable.snack3_chocolate, "snack", 29)
-                productViewModel.insert(product)
+        insert_all.setOnClickListener {
+            val it = (application as ProductsApplication)
+            productViewModel = it.productViewModel
+
+            val temp = productViewModel.getAll()
+            //Justify if the list is empty or not!!
+            if (temp.isEmpty()) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    lateinit var product: ProductItem
+                    product = ProductItem(2020001, R.drawable.drink1_evian, "drink", 18)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020002, R.drawable.drink2_alpro_soyamilk, "drink", 20)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020003, R.drawable.drink3_mellanmilkeko, "drink", 12)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020004, R.drawable.drink4_havredryck, "drink", 12)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020006, R.drawable.fruit1_avcado, "fruit", 11)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020007, R.drawable.fruit2_mango, "fruit", 20)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020008, R.drawable.fruit3_grapefruit, "fruit", 15)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020009, R.drawable.hygien1_colgate, "hygien", 26)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020010, R.drawable.hygien2_neutral, "hygien", 25)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020011, R.drawable.meat1_chicken, "meat", 90)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020012, R.drawable.meat2_meatball, "meat", 53)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020013, R.drawable.seafood1_shrimp, "seafood", 65)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020014, R.drawable.seafood2_salmon, "seafood", 85)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020015, R.drawable.seafood3_friedfish, "seafood", 57)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020016, R.drawable.snack1_chips, "snack", 22)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020017, R.drawable.snack2_icecream, "snack", 52)
+                    productViewModel.insert(product)
+                    product = ProductItem(2020018, R.drawable.snack3_chocolate, "snack", 29)
+                    productViewModel.insert(product)
+                }
+                Toast.makeText(this, "The data is BACK!!", Toast.LENGTH_SHORT).show()
+
+                initLocalListData()
+                text_view.visibility = View.GONE
+                recycler_view.visibility = View.VISIBLE
+
+                if (recycler_view.adapter!=null){
+                    adapter.updateDataList()
+                }
+            } else {
+                Toast.makeText(this, "Nothing need to do!", Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(this,"the data is BACK!!",Toast.LENGTH_SHORT).show()
         }
 
         remove_all.setOnClickListener {
             val it = (application as ProductsApplication)
             productViewModel = it.productViewModel
-            productViewModel.removeAll()
-            Toast.makeText(this,"the data is EMPTY!!",Toast.LENGTH_SHORT).show()
+            val temp = productViewModel.getAll()
+            if (temp.isEmpty() == false) {
+                productViewModel.removeAll()
+                Toast.makeText(this, "The data is EMPTY!!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Nothing need to do!", Toast.LENGTH_SHORT).show()
+            }
+            exampleList.clear()
+            text_view.visibility = View.VISIBLE
+            recycler_view.visibility = View.GONE
+            if (recycler_view.adapter!=null){
+                adapter.updateDataList()
+            }
+
+
         }
     }
 
-    private fun initDataBase() {
-        exampleList = generateCategoryList(6)
+    private fun initLocalListData() {
+        exampleList = generateCategoryList()
     }
 
 
-
-    /* Should delete or develop further functions afterwards.
-    fun insertItem(view: View) {
-        val index = Random.nextInt(8)
-
-        val newItem = CategoryItem(
-            R.drawable.ic_android,
-            "New item at position $index",
-            "in the store"
-        )
-
-        exampleList.add(index, newItem)
-        adapter.notifyItemInserted(index)
-    }
-
-    fun removeItem(view: View) {
-        val index = Random.nextInt(8)
-
-        exampleList.removeAt(index)
-        adapter.notifyItemRemoved(index)
-    }
-*/
     override fun onItemClick(position: Int) {
         val clickedItem = exampleList[position]
         clickedItem.status = "clicked"
@@ -125,12 +143,12 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
     }
 
-    private fun generateCategoryList(size: Int): ArrayList<CategoryItem> {
-        val list = ArrayList<CategoryItem>()
+    private fun generateCategoryList(): MutableList<CategoryItem> {
+        exampleList.clear()
         var drawable: Int
         //var status: String
         var type: String
-        for (i in 0 until size) {
+        for (i in 0 until 6) {
             when (i) {
                 0 -> {
                     drawable = R.drawable.type0_drink
@@ -167,9 +185,9 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
                 }
             }
             val item = CategoryItem(drawable, type, "not clicked")
-            list.add(item)
+            exampleList.add(item)
         }
-        return list
+        return exampleList
     }
 
     companion object {

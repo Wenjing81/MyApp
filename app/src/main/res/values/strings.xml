@@ -9,6 +9,7 @@
     <string name="try_again">Try again</string>
     <string name="insert_all">Insert all</string>
     <string name="remove_all">Remove all</string>
+    <string name="empty_data">Please insert data to database first!</string>
 </resources>
 
 

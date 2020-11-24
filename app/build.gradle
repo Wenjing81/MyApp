@@ -57,5 +57,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //Add a database,not the built-in database in Android Studio.
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }
