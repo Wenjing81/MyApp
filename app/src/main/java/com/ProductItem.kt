@@ -16,6 +16,7 @@ data class ProductItem(
     var productType: String = "",
     @ColumnInfo
     var productPrice: Int = 0,
+    //autogenerate, can not give them values.
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
     var id: Long = 0L

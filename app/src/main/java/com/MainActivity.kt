@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
     private var exampleList: MutableList<CategoryItem> = mutableListOf()
     private lateinit var adapter: CategoryAdapter
     private lateinit var productViewModel: ProductViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -126,6 +127,8 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
 
         }
     }
+
+
 
     private fun initLocalListData() {
         exampleList = generateCategoryList()

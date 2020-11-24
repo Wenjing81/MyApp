@@ -3,6 +3,7 @@ package com
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.AppDatabase.Companion.getDatabase
@@ -40,48 +41,51 @@ class WelcomeActivity : AppCompatActivity() {
 
         val it = (application as ProductsApplication)
         productViewModel = it.productViewModel
+        val temp = productViewModel.getAll()
+        if (temp.isEmpty()) {
+            getDatabase(this)
 
-        getDatabase(this)
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            lateinit var product: ProductItem
-            product = ProductItem(2020001, R.drawable.drink1_evian, "drink", 18)
-            productViewModel.insert(product)
-            product = ProductItem(2020002, R.drawable.drink2_alpro_soyamilk, "drink", 20)
-            productViewModel.insert(product)
-            product = ProductItem(2020003, R.drawable.drink3_mellanmilkeko, "drink", 12)
-            productViewModel.insert(product)
-            product = ProductItem(2020004, R.drawable.drink4_havredryck, "drink", 12)
-            productViewModel.insert(product)
-            product = ProductItem(2020006, R.drawable.fruit1_avcado, "fruit", 11)
-            productViewModel.insert(product)
-            product = ProductItem(2020007, R.drawable.fruit2_mango, "fruit", 20)
-            productViewModel.insert(product)
-            product = ProductItem(2020008, R.drawable.fruit3_grapefruit, "fruit", 15)
-            productViewModel.insert(product)
-            product = ProductItem(2020009, R.drawable.hygien1_colgate, "hygien", 26)
-            productViewModel.insert(product)
-            product = ProductItem(2020010, R.drawable.hygien2_neutral, "hygien", 25)
-            productViewModel.insert(product)
-            product = ProductItem(2020011, R.drawable.meat1_chicken, "meat", 90)
-            productViewModel.insert(product)
-            product = ProductItem(2020012, R.drawable.meat2_meatball, "meat", 53)
-            productViewModel.insert(product)
-            product = ProductItem(2020013, R.drawable.seafood1_shrimp, "seafood", 65)
-            productViewModel.insert(product)
-            product = ProductItem(2020014, R.drawable.seafood2_salmon, "seafood", 85)
-            productViewModel.insert(product)
-            product = ProductItem(2020015, R.drawable.seafood3_friedfish, "seafood", 57)
-            productViewModel.insert(product)
-            product = ProductItem(2020016, R.drawable.snack1_chips, "snack", 22)
-            productViewModel.insert(product)
-            product = ProductItem(2020017, R.drawable.snack2_icecream, "snack", 52)
-            productViewModel.insert(product)
-            product = ProductItem(2020018, R.drawable.snack3_chocolate, "snack", 29)
-            productViewModel.insert(product)
+            lifecycleScope.launch(Dispatchers.IO) {
+                lateinit var product: ProductItem
+                product = ProductItem(2020001, R.drawable.drink1_evian, "drink", 18)
+                productViewModel.insert(product)
+                product = ProductItem(2020002, R.drawable.drink2_alpro_soyamilk, "drink", 20)
+                productViewModel.insert(product)
+                product = ProductItem(2020003, R.drawable.drink3_mellanmilkeko, "drink", 12)
+                productViewModel.insert(product)
+                product = ProductItem(2020004, R.drawable.drink4_havredryck, "drink", 12)
+                productViewModel.insert(product)
+                product = ProductItem(2020006, R.drawable.fruit1_avcado, "fruit", 11)
+                productViewModel.insert(product)
+                product = ProductItem(2020007, R.drawable.fruit2_mango, "fruit", 20)
+                productViewModel.insert(product)
+                product = ProductItem(2020008, R.drawable.fruit3_grapefruit, "fruit", 15)
+                productViewModel.insert(product)
+                product = ProductItem(2020009, R.drawable.hygien1_colgate, "hygien", 26)
+                productViewModel.insert(product)
+                product = ProductItem(2020010, R.drawable.hygien2_neutral, "hygien", 25)
+                productViewModel.insert(product)
+                product = ProductItem(2020011, R.drawable.meat1_chicken, "meat", 90)
+                productViewModel.insert(product)
+                product = ProductItem(2020012, R.drawable.meat2_meatball, "meat", 53)
+                productViewModel.insert(product)
+                product = ProductItem(2020013, R.drawable.seafood1_shrimp, "seafood", 65)
+                productViewModel.insert(product)
+                product = ProductItem(2020014, R.drawable.seafood2_salmon, "seafood", 85)
+                productViewModel.insert(product)
+                product = ProductItem(2020015, R.drawable.seafood3_friedfish, "seafood", 57)
+                productViewModel.insert(product)
+                product = ProductItem(2020016, R.drawable.snack1_chips, "snack", 22)
+                productViewModel.insert(product)
+                product = ProductItem(2020017, R.drawable.snack2_icecream, "snack", 52)
+                productViewModel.insert(product)
+                product = ProductItem(2020018, R.drawable.snack3_chocolate, "snack", 29)
+                productViewModel.insert(product)
+            }
+        }else {
+            Toast.makeText(this, "Nothing need to do!", Toast.LENGTH_SHORT).show()
         }
     }
-
     companion object {
         const val USERNAME = "username"
 
