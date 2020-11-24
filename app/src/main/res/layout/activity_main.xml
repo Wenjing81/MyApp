@@ -24,14 +24,16 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
+            android:id="@+id/insert_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/insert_item"
+            android:text="@string/insert_all"
             android:layout_weight="1"/>
         <Button
+            android:id="@+id/remove_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/remove_item"
+            android:text="@string/remove_all"
             android:layout_weight="1"/>
     </LinearLayout>
 

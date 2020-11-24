@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelStoreOwner
 import com.MainActivity.Companion.PDTYPE
 import com.WelcomeActivity.Companion.USERNAME
 import com.r.myapp.R
@@ -15,14 +18,16 @@ import kotlinx.android.synthetic.main.activity_guessing_process.*
 
 class GuessingActivity : AppCompatActivity() {
 
-    private val productList = mutableListOf<ProductItem>()
+    private var productList = mutableListOf<ProductItem>()
     var successTimesOnOnePage: Int = 0
+    private lateinit var productViewModel: ProductViewModel
 
     //transfer "intent" and the username here
     var randomImageNumber = 0
     lateinit var productItem: ProductItem
     var failureCount = 0
     var sumOfPrices = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guessing_process)
@@ -31,9 +36,11 @@ class GuessingActivity : AppCompatActivity() {
         //Log.v("wj","the input username at Guessing is $username")
 
         val type = intent?.getStringExtra(PDTYPE)
-        //Log.v("WJ","type is $type")
+        Log.v("WJ", "type is $type")
+        val it = (application as ProductsApplication)
+        productViewModel = it.productViewModel
 
-        productGenerator()
+        getProductListFromDB()
         //subList of productList is a List,not a MutableList
         val subList1 = productList.filter {
             it.productType == type
@@ -81,27 +88,6 @@ class GuessingActivity : AppCompatActivity() {
         replaceFragment(x)
     }
 
-    fun productGenerator() {
-        productList.add(ProductItem(R.drawable.drink1_evian, "drink", 18, 2020001))
-        productList.add(ProductItem(R.drawable.drink2_alpro_soyamilk, "drink", 20, 2020002))
-        productList.add(ProductItem(R.drawable.drink3_mellanmilkeko, "drink", 12, 2020003))
-        productList.add(ProductItem(R.drawable.drink4_havredryck, "drink", 12, 2020004))
-        productList.add(ProductItem(R.drawable.drink5_spritezero, "drink", 17, 2020005))
-        productList.add(ProductItem(R.drawable.fruit1_avcado, "fruit", 11, 2020006))
-        productList.add(ProductItem(R.drawable.fruit2_mango, "fruit", 20, 2020007))
-        productList.add(ProductItem(R.drawable.fruit3_grapefruit, "fruit", 15, 2020008))
-        productList.add(ProductItem(R.drawable.hygien1_colgate, "hygien", 26, 2020009))
-        productList.add(ProductItem(R.drawable.hygien2_neutral, "hygien", 25, 2020010))
-        productList.add(ProductItem(R.drawable.meat1_chicken, "meat", 90, 2020011))
-        productList.add(ProductItem(R.drawable.meat2_meatball, "meat", 53, 2020012))
-        productList.add(ProductItem(R.drawable.seafood1_shrimp, "seafood", 65, 2020013))
-        productList.add(ProductItem(R.drawable.seafood2_salmon, "seafood", 85, 2020014))
-        productList.add(ProductItem(R.drawable.seafood3_friedfish, "seafood", 57, 2020015))
-        productList.add(ProductItem(R.drawable.snack1_chips, "snack", 22, 2020016))
-        productList.add(ProductItem(R.drawable.snack2_icecream, "snack", 52, 2020017))
-        productList.add(ProductItem(R.drawable.snack3_chocolate, "snack", 29, 2020018))
-    }
-
     fun replaceFragment(fragment: Fragment) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
@@ -117,6 +103,11 @@ class GuessingActivity : AppCompatActivity() {
         intent.putExtra(SUMOFPRICES, sumOfPrices)
         Log.d("wj", "You have failed $failureCount times!")
         startActivity(intent)
+    }
+
+    private fun getProductListFromDB() {
+        val x = productViewModel.getAll()
+        productList = x as MutableList
     }
 
     companion object {
